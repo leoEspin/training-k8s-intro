@@ -29,8 +29,8 @@ gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project 
 ```
 Push the container to GCR, replacing __<MY_UNAME>__ with your username.
 ```sh
-docker tag my-app gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
-docker push gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+docker tag my-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
+docker push gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 ```
 Edit the `k8s.yaml` file, replacing __<MY_UNAME>__ with your username.
 
