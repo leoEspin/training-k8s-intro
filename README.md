@@ -7,15 +7,15 @@ This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kub
 - `gcloud`
 
 ## Docker
-### Build the joker app container image
+### Build the container image
 Clone this repo, navigate to the `example-apps/joker` directory, and build the container image for the joker application:
 ```sh
 cd example-apps/joker
 docker build -t my-joker-app .
 ```
 
-### Run the joker container
-Run the container:
+### Run the container
+Run the joker container:
 ```sh
 docker run -p 8000:80 my-joker-app
 ```
@@ -33,14 +33,14 @@ gcloud auth configure-docker
 gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project aramse-training
 ```
 
-### Push the joker container image to GCR
-Push the container image to GCR, replacing __<MY_UNAME>__ with your username.
+### Push the container image to GCR
+Push the joker container image to GCR, replacing __<MY_UNAME>__ with your username.
 ```sh
 docker tag my-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 docker push gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 ```
 
-### Deploy the joker app to GKE
+### Deploy to GKE
 Edit the `k8s.yaml` file, replacing __<MY_UNAME>__ with your username.
 
 Deploy the joker application to Kubernetes:
