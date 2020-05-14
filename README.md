@@ -1,6 +1,11 @@
 # Introduction to Kubernetes/Docker
 This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes/Docker_ training.
 
+## Prerequisites
+- `docker`
+- `gcloud`
+- `git`
+
 ## Docker
 Navigate to the `example-apps/joker` directory of this repo, explore the `Dockerfile`, and build the container image for the joker application:
 ```sh
