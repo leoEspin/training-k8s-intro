@@ -1,1 +1,56 @@
-# training-k8s-intro
+# Introduction to Kubernetes/Docker
+This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes/Docker_ training.
+
+## Docker
+Navigate to the `example-apps/joker` directory of this repo, explore the `Dockerfile`, and build the container image for the joker application:
+```sh
+cd example-apps/joker
+docker build -t my-joker-app .
+```
+Run the container:
+```sh
+docker run -p 8000:80 my-joker-app
+```
+Open http://locahost:8000 in your web browser.
+
+Optionally make updates to the application code, rebuild, and rerun the container to observe them.
+
+
+## Kubernetes
+Configure access to Google Container Registry (GCR):
+```sh
+gcloud auth configure-docker
+```
+Push the container to GCR, replacing __<MY_UNAME>__ with your username.
+```sh
+docker tag my-app gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+docker push gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+```
+Edit the `k8s.yaml` file, replacing __<MY_UNAME>__ with your username.
+
+Deploy the joker application to Kubernetes:
+```sh
+kubectl apply -f k8s.yaml
+```
+Observe the deployed instances of the joker app, retrieve the public IP:
+```sh
+kubectl get pods -n <MY_UNAME>
+kubectl get services -n <MY_UNAME>
+```
+Connect to the app via its public IP via web browser
+
+### Perform a rolling update
+In a separate window, run the following command to continuously request the `/hello` endpoint of the joker app:
+```sh
+while true; do curl <PUBLIC_IP>/hello; echo ''; sleep 1; done
+```
+Update the `serve.py` file with a different message for the `hello` request handler.
+
+Build and push the container again (see previous section for commands), but tag it `1.1` instead of `1.0`.
+
+Update the `k8s.yaml` file with the new tag, and deploy it:
+```sh
+kubectl apply -f k8s.yaml
+```
+Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the container instances update.
+
