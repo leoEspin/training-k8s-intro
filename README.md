@@ -26,17 +26,21 @@ Optionally make updates to the application code, rebuild, and rerun the containe
 
 ## Kubernetes
 
-### Deploy the joker app
+### Configure access
 Configure access to Google Container Registry (GCR) and the Google Kubernetes Engine (GKE) cluster we'll deploy to:
 ```sh
 gcloud auth configure-docker
 gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project aramse-training
 ```
-Push the container to GCR, replacing __<MY_UNAME>__ with your username.
+
+### Push the joker container image to GCR
+Push the container image to GCR, replacing __<MY_UNAME>__ with your username.
 ```sh
 docker tag my-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 docker push gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 ```
+
+### Deploy the joker app to GKE
 Edit the `k8s.yaml` file, replacing __<MY_UNAME>__ with your username.
 
 Deploy the joker application to Kubernetes:
