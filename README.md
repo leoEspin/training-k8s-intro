@@ -2,12 +2,12 @@
 This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes/Docker_ training.
 
 ## Prerequisites
+- `git` (to clone this repo)
 - `docker`
 - `gcloud`
-- `git`
 
 ## Docker
-Navigate to the `example-apps/joker` directory of this repo, explore the `Dockerfile`, and build the container image for the joker application:
+Clone this repo, navigate to the `example-apps/joker` directory, and build the container image for the joker application:
 ```sh
 cd example-apps/joker
 docker build -t my-joker-app .
@@ -22,9 +22,10 @@ Optionally make updates to the application code, rebuild, and rerun the containe
 
 
 ## Kubernetes
-Configure access to Google Container Registry (GCR):
+Configure access to Google Container Registry (GCR) and the Google Kubernetes Engine (GKE) cluster we'll deploy to:
 ```sh
 gcloud auth configure-docker
+gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project aramse-training
 ```
 Push the container to GCR, replacing __<MY_UNAME>__ with your username.
 ```sh
@@ -42,7 +43,7 @@ Observe the deployed instances of the joker app, retrieve the public IP:
 kubectl get pods -n <MY_UNAME>
 kubectl get services -n <MY_UNAME>
 ```
-Connect to the app via its public IP via web browser
+Open a web browser to the public IP.
 
 ### Perform a rolling update
 In a separate window, run the following command to continuously request the `/hello` endpoint of the joker app:
