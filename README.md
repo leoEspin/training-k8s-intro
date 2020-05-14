@@ -7,11 +7,14 @@ This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kub
 - `gcloud`
 
 ## Docker
+### Build the joker app container image
 Clone this repo, navigate to the `example-apps/joker` directory, and build the container image for the joker application:
 ```sh
 cd example-apps/joker
 docker build -t my-joker-app .
 ```
+
+### Run the joker container
 Run the container:
 ```sh
 docker run -p 8000:80 my-joker-app
@@ -22,6 +25,8 @@ Optionally make updates to the application code, rebuild, and rerun the containe
 
 
 ## Kubernetes
+
+### Deploy the joker app
 Configure access to Google Container Registry (GCR) and the Google Kubernetes Engine (GKE) cluster we'll deploy to:
 ```sh
 gcloud auth configure-docker
@@ -45,6 +50,8 @@ kubectl get services -n <MY_UNAME>
 ```
 Open a web browser to the public IP.
 
+Also view resources in namespaces belonging to others (and notice you can't modify them, based on configured permissions).
+
 ### Perform a rolling update
 In a separate window, run the following command to continuously request the `/hello` endpoint of the joker app:
 ```sh
@@ -60,3 +67,17 @@ kubectl apply -f k8s.yaml
 ```
 Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the container instances update.
 
+### SSH into containers
+SSH into one of your joker app containers:
+```sh
+kubectl get pods -n <MY_UNAME>
+kubectl exec -it <POD_NAME> -n <MY_UNAME> -- bash
+```
+From there, you can connect to the joker app simply from its internal DNS name:
+```sh
+curl joker
+```
+You can also SSH into a new container:
+```sh
+kubectl run -it test --image centos -n <MY_UNAME> -- bash
+```
