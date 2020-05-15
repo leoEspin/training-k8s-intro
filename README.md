@@ -36,7 +36,7 @@ gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project 
 ### Push the container image to GCR
 Push the joker container image to GCR, replacing __<MY_UNAME>__ with your username.
 ```sh
-docker tag my-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
+docker tag my-joker-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 docker push gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 ```
 
