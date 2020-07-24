@@ -29,6 +29,7 @@ Optionally make updates to the application code, rebuild, and rerun the containe
 ### Configure access
 Configure access to Google Container Registry (GCR) and the Google Kubernetes Engine (GKE) cluster we'll deploy to:
 ```sh
+gcloud auth login   # if not already done
 gcloud auth configure-docker
 gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project aramse-training
 ```
