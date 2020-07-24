@@ -40,6 +40,11 @@ docker tag my-joker-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 docker push gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
 ```
 
+### Install `kubectl`
+```sh
+gcloud components install kubectl
+```
+
 ### Deploy to GKE
 Edit the `k8s.yaml` file, replacing __<MY_UNAME>__ with your username.
 
