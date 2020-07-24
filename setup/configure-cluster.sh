@@ -1,6 +1,6 @@
 #!/bin/bash
 
-USERS=""
+USERS=" dmuchene@aramse.io sma@aramse.io"
 
 for user in $USERS; do
   base=$(echo $user | cut -d '@' -f 1)
