@@ -19,7 +19,7 @@ Run the joker container:
 ```sh
 docker run -p 8000:80 my-joker-app
 ```
-Open http://locahost:8000 in your web browser.
+Open http://localhost:8000 in your web browser.
 
 Optionally make updates to the application code, rebuild, and rerun the container to observe them.
 
