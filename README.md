@@ -35,10 +35,10 @@ gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project 
 ```
 
 ### Push the container image to GCR
-Push the joker container image to GCR, replacing __<MY_UNAME>__ with your username.
+Push the joker container image to GCR, replacing __<MY_NAME>__ with any value you'd like (while trying to keep it unique among participants in the training).
 ```sh
-docker tag my-joker-app gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
-docker push gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
+docker tag my-joker-app gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+docker push gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
 ```
 
 ### Install `kubectl`
@@ -47,47 +47,83 @@ gcloud components install kubectl
 ```
 
 ### Deploy to GKE
-Edit the `k8s.yaml` file, replacing __<MY_UNAME>__ with your username.
+Edit the `k8s.yaml` file, replacing __<MY_NAME>__ with the name you chose earlier.
 
 Deploy the joker application to Kubernetes:
 ```sh
 kubectl apply -f k8s.yaml
 ```
-Observe the deployed instances of the joker app, retrieve the public IP:
+View the `Deployment`, `Service`, and resulting `Pod` resources deployed for your joker app:
 ```sh
-kubectl get pods -n <MY_UNAME>
-kubectl get services -n <MY_UNAME>
+kubectl get deployments
+kubectl get pods
+kubectl get services
 ```
-Open a web browser to the public IP.
+Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 
-Also view resources in namespaces belonging to others (and notice you can't modify them, based on configured permissions).
+Optionally you can filter to only your resources with adding a label selector `-l app=<MY_NAME>` to each of the above `kubectl` commands.
+
+> `Namespaces`, while not covered in this training, are another k8s resource that can be used to properly organize other resources into groups.
 
 ### Perform a rolling update
-In a separate window, run the following command to continuously request the `/hello` endpoint of the joker app:
+In a separate window, run the following command to continuously request the `/hello` endpoint of your joker app:
 ```sh
-while true; do curl <PUBLIC_IP>/hello; echo ''; sleep 1; done
+while true; do curl <EXTERNAL-IP>/hello; echo ''; sleep 1; done
 ```
-Update the `serve.py` file with a different message for the `hello` request handler.
+Update the `serve.py` file with a different return message in the `hello` request handler.
 
 Build and push the container again (see previous section for commands), but tag it `1.1` instead of `1.0`.
 
-Update the `k8s.yaml` file with the new tag, and deploy it:
+Update the `k8s.yaml` file with the new `1.1` tag, and deploy it:
 ```sh
 kubectl apply -f k8s.yaml
 ```
-Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the container instances update.
+Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the pods update.
+
+### (Intentionally) Break the readiness probe, try updating
+Cause the readiness probe to fail by replacing the `return ''` in line 19 of `serve.py` with `return blahblah`.
+
+Also update the `serve.py` file with yet another return message for the `hello` request handler.
+
+Build and push the container again (see previous section for commands), but tag it `1.2`.
+
+Update the `k8s.yaml` file with the new `1.2` tag, and deploy it:
+```sh
+kubectl apply -f k8s.yaml
+```
+Get the pods again:
+```sh
+kubectl get pods
+```
+Notice that you will see that the new pods do not come up as healthy, as expected, and your old pods are still running. Also going back to the window requesting `/hello` will not show your new message, only your old one. This is due to the failing readiness probe as the load balancer is smart enough to not route to any pods that are failing this probe.
+
+Run the following to rollback this deployment:
+```sh
+kubectl rollback deployment joker-<MY_NAME>
+```
 
 ### SSH into containers
 SSH into one of your joker app containers:
 ```sh
-kubectl get pods -n <MY_UNAME>
-kubectl exec -it <POD_NAME> -n <MY_UNAME> -- bash
+kubectl get pods
+kubectl exec -it <POD_NAME> -- bash
 ```
 From there, you can connect to the joker app simply from its internal DNS name:
 ```sh
-curl joker
+curl joker-<MY_NAME>
 ```
-You can also SSH into a new container:
+You can also SSH into a new container in the same cluster:
 ```sh
-kubectl run -it test --image centos -n <MY_UNAME> -- bash
+kubectl run -it test --image centos -- bash
+```
+
+It too is automatically configured to point to Kube-DNS:
+```sh
+curl joker-<MY_NAME>
+```
+
+### Cleanup
+Delete the resources we created with the following:
+```sh
+kubectl delete -f k8s.yaml
 ```
