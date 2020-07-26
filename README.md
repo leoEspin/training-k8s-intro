@@ -21,7 +21,13 @@ docker run -p 8000:80 my-joker-app
 ```
 Open http://localhost:8000 in your web browser.
 
-Optionally make updates to the application code, rebuild, and rerun the container to observe them.
+Kill the container:
+```
+docker ps  # retrieve the CONTAINER-ID
+docker kill <CONTAINER-ID>
+```
+
+Optionally make updates to the `serve.py` code, rebuild, and rerun the container to observe them.
 
 
 ## Kubernetes
@@ -63,7 +69,7 @@ Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 
 Optionally you can filter to only your resources with adding a label selector `-l app=<MY_NAME>` to each of the above `kubectl` commands.
 
-> `Namespaces`, while not covered in this training, are another k8s resource that can be used to properly organize other resources into groups.
+> `Namespaces`, while not covered in this training, are another k8s resource that can be used to more properly organize other resources into groups. 
 
 ### Perform a rolling update
 In a separate window, run the following command to continuously request the `/hello` endpoint of your joker app:
@@ -80,10 +86,8 @@ kubectl apply -f k8s.yaml
 ```
 Return to the window that's continuously requesting the `/hello` endpoint and observe the responses change as the pods update.
 
-### (Intentionally) Break the readiness probe, try updating
-Cause the readiness probe to fail by replacing the `return ''` in line 19 of `serve.py` with `return blahblah`.
-
-Also update the `serve.py` file with yet another return message for the `hello` request handler.
+### (Intentionally) Break the readiness probe, try another update
+Cause the readiness probe to fail by editing in the handler for the readiness probe in `serve.py`, replacing the `return ''` with `return blahblah`. Also update the `hello` request handler with yet another return message.
 
 Build and push the container again (see previous section for commands), but tag it `1.2`.
 
@@ -108,22 +112,30 @@ SSH into one of your joker app containers:
 kubectl get pods
 kubectl exec -it <POD_NAME> -- bash
 ```
-From there, you can connect to the joker app simply from its internal DNS name:
+From there, you can connect to the joker app simply using the name of its `Service`:
 ```sh
 curl joker-<MY_NAME>
 ```
-You can also SSH into a new container in the same cluster:
+This is made possible with an internal DNS server that every cluster is included with, and every `Pod` is automatically configured to point to.
+
+You can also SSH into a new container in the same cluster, using any image:
 ```sh
 kubectl run -it test --image centos -- bash
 ```
 
-It too is automatically configured to point to Kube-DNS:
+It too is automatically configured to point to the same DNS server:
 ```sh
 curl joker-<MY_NAME>
 ```
 
 ### Cleanup
-Delete the resources we created with the following:
+Delete the resources you created with the following:
 ```sh
 kubectl delete -f k8s.yaml
+```
+Confirm they have been (are being) terminated:
+```sh
+kubectl get deployments
+kubectl get pods
+kubectl get services
 ```
