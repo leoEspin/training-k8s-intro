@@ -101,9 +101,9 @@ kubectl get pods
 ```
 Notice that you will see that the new pods do not come up as healthy, as expected, and your old pods are still running. Also going back to the window requesting `/hello` will not show your new message, only your old one. This is due to the failing readiness probe as the load balancer is smart enough to not route to any pods that are failing this probe.
 
-Run the following to rollback this deployment:
+Run the following to rollback to the previous version:
 ```sh
-kubectl rollback deployment joker-<MY_NAME>
+kubectl rollout undo deployment joker-<MY_NAME>
 ```
 
 ### SSH into containers
