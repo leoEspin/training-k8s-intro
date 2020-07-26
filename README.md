@@ -99,7 +99,9 @@ Get the pods again:
 ```sh
 kubectl get pods
 ```
-Notice that you will see that the new pods do not come up as healthy, as expected, and your old pods are still running. Also going back to the window requesting `/hello` will not show your new message, only your old one. This is due to the failing readiness probe as the load balancer is smart enough to not route to any pods that are failing this probe.
+Notice that you will see that the new pods do not come up as healthy, as expected, and your old pods are still running. This is due to the failing readiness probes as Kubernetes will only terminate older pods if new ones are deployed that are passing readiness probes.
+
+Also going back to the window requesting `/hello` will not show your new message, only your old one. This is also due to the failing readiness probe as the `Service` is smart enough to not route to any pods that are failing this probe.
 
 Run the following to rollback to the previous version:
 ```sh
