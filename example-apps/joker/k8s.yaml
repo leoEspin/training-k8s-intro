@@ -1,21 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: joker
-  namespace: <MY_UNAME>
+  name: joker-<MY_NAME>
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: joker
+      app: joker-<MY_NAME>
   template:
     metadata:
       labels:
-        app: joker
+        app: joker-<MY_NAME>
     spec:
       containers:
       - name: web
-        image: gcr.io/aramse-training/<MY_UNAME>-joker-app:1.0
+        image: gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
         readinessProbe:
           httpGet:
             path: /health
@@ -28,10 +27,9 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
+  name: joker-<MY_NAME>
   labels:
-    app: joker
-  name: joker
-  namespace: <MY_UNAME>
+    app: joker-<MY_NAME>
 spec:
   ports:
   - name: port80
@@ -39,5 +37,5 @@ spec:
     protocol: TCP
     targetPort: 80
   selector:
-    app: joker
+    app: joker-<MY_NAME>
   type: LoadBalancer
