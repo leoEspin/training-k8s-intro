@@ -13,7 +13,7 @@ spec:
         app: joker-<MY_NAME>
     spec:
       containers:
-      - name: web
+      - name: joker
         image: gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
         readinessProbe:
           httpGet:
