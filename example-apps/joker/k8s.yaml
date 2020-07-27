@@ -22,10 +22,6 @@ spec:
           httpGet:
             path: /health
             port: 80
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 80
 ---
 apiVersion: v1
 kind: Service
