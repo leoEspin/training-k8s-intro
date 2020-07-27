@@ -123,7 +123,7 @@ From there, you can connect to the joker app simply using the name of its `Servi
 ```sh
 curl joker-<MY_NAME>
 ```
-This is made possible with an internal DNS server that every cluster is included with, and every container within the cluster is automatically configured to point to.
+This is made possible with an internal DNS server that every cluster includes, and which every container within the cluster automatically uses.
 
 You can also SSH into a new container in the same cluster, using any image:
 ```sh
