@@ -127,10 +127,10 @@ This is made possible with an internal DNS server that every cluster includes, a
 
 You can also SSH into a new container in the same cluster, using any image:
 ```sh
-kubectl run -it test --image centos -- bash
+kubectl run -it test --image centos <MY_NAME> -- bash
 ```
 
-It too is automatically configured to point to the same DNS server:
+It also is configured to use the same DNS server:
 ```sh
 curl joker-<MY_NAME>
 ```
