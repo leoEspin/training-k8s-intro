@@ -76,7 +76,7 @@ kubectl get services
 ```
 Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 
-Optionally you can filter to only your resources with adding a label selector `-l app=<MY_NAME>` to each of the above `kubectl` commands.
+Optionally you can filter to only your resources with adding a label selector `-l app=joker-<MY_NAME>` to each of the above `kubectl` commands.
 
 > `Namespaces`, while not covered in this training, are another k8s resource that can be used to more properly organize other resources into groups. 
 
