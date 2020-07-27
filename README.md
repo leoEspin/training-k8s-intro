@@ -21,7 +21,8 @@ docker run -p 8000:80 my-joker-app
 ```
 Open http://localhost:8000 in your web browser.
 
-Kill the container:
+### Cleanup
+Kill the running container:
 ```
 docker ps  # retrieve the CONTAINER-ID
 docker kill <CONTAINER-ID>
