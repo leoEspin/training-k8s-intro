@@ -14,12 +14,24 @@ cd example-apps/joker
 docker build -t my-joker-app .
 ```
 
+View the built container image:
+```sh
+docker images
+```
+
 ### Run the container
 Run the joker container:
 ```sh
 docker run -p 8000:80 my-joker-app
 ```
 Open http://localhost:8000 in your web browser.
+
+### View info on the container
+Run the following to inspect the container's properties:
+```sh
+docker ps  # retrieve the CONTAINER-ID
+docker inspect <CONTAINER-ID>
+```
 
 ### Cleanup
 Kill the running container:
