@@ -113,6 +113,12 @@ Run the following to rollback to the previous version:
 kubectl rollout undo deployment joker-<MY_NAME>
 ```
 
+### View container logs
+```sh
+kubectl get pods  # retrieve POD_NAME
+kubectl logs <POD_NAME> -f
+```
+
 ### SSH into containers
 SSH into one of your joker app containers:
 ```sh
@@ -130,7 +136,7 @@ You can also SSH into a new container in the same cluster, using any image:
 kubectl run -it test --image centos <MY_NAME> -- bash
 ```
 
-It also is configured to use the same DNS server:
+It is also configured to use the same DNS server:
 ```sh
 curl joker-<MY_NAME>
 ```
