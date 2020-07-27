@@ -1,14 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: joker
+  name: joker-<MY_NAME>
 spec:
   replicas: 4
+  selector:
+    matchLabels:
+      app: joker-<MY_NAME>
   template:
+    metadata:
+      labels:
+        app: joker-<MY_NAME>
     spec:
       containers:
       - name: joker
-        image: gcr.io/aramse-training/my-joker-app:1.0
+        image: gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
         resources:
           requests:
             cpu: 0.1
@@ -16,7 +22,10 @@ spec:
           httpGet:
             path: /health
             port: 80
-
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
 ---
 apiVersion: v1
 kind: Service
