@@ -45,13 +45,15 @@ Optionally make updates to the `serve.py` code, rebuild, and rerun the container
 
 ## Kubernetes
 
+### Create a GKE cluster
+Create a Kubernetes cluster with Google Kubernetes Engine (GKE) using the GCP console.
+
 ### Configure access
-Configure access to Google Container Registry (GCR) and the Google Kubernetes Engine (GKE) cluster we'll deploy to, and install `kubectl`:
+Configure access to Google Container Registry (GCR) and the GKE cluster we'll deploy to, and install `kubectl`:
 ```sh
 gcloud auth login   # if not already done
 gcloud auth configure-docker
 gcloud components install kubectl
-gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project aramse-training
 ```
 
 ### Push the container image to GCR
@@ -59,6 +61,12 @@ Push the joker container image to GCR, replacing __<MY_NAME>__ with any value yo
 ```sh
 docker tag my-joker-app gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
 docker push gcr.io/aramse-training/<MY_NAME>-joker-app:1.0
+```
+
+### Configure access to GKE
+```sh
+gcloud container clusters get-credentials k8s-intro --zone us-east1-b --project aramse-training
+kubectl config get-contexts   # ensure you are pointing to the right cluster
 ```
 
 ### Deploy to GKE
@@ -152,3 +160,5 @@ kubectl get deployments
 kubectl get pods
 kubectl get services
 ```
+
+Optionally, follow the instructions in this [link](https://stackoverflow.com/questions/36344371/completely-uninstall-google-cloud-sdk-mac) to uninstall `gcloud`.
