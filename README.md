@@ -141,7 +141,7 @@ This is made possible with an internal DNS server that every cluster includes, a
 
 You can also SSH into a new container in the same cluster, using any image:
 ```sh
-kubectl run -it test --image centos <MY_NAME> -- bash
+kubectl run -it --image centos <MY_NAME> -- bash
 ```
 
 It is also configured to use the same DNS server:
