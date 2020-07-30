@@ -16,12 +16,12 @@ def load_jokes():
 # Endpoints
 class health:
   def GET(self):
-    return ''
+    return blahblah
 
 class hello:
   def GET(self):
     return json.dumps({
-      'msg': 'hello hello from ' + HOST, 
+      'msg': 'hello jello from ' + HOST, 
       'date': str(datetime.datetime.now())
     })
 
