@@ -48,8 +48,8 @@ Optionally make updates to the `serve.py` code, rebuild, and rerun the container
 ### Create a GKE cluster
 Create a Kubernetes cluster with Google Kubernetes Engine (GKE) using the GCP console.
 
-### Configure access
-Configure access to Google Container Registry (GCR) and the GKE cluster we'll deploy to, and install `kubectl`:
+### Install/configure tools
+Login to your account with `gcloud`, configure access to Google Container Registry (GCR), and install `kubectl`:
 ```sh
 gcloud auth login   # if not already done
 gcloud auth configure-docker
