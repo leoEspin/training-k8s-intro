@@ -33,7 +33,7 @@ docker build -t my-joker-app:2
 docker run -p 8001:80 my-joker-app:2
 ```
 
-### View info on the container
+### View info on running containers
 In a separate window, run the following to view resource usage of running containers:
 ```sh
 docker stats
