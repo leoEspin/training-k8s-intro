@@ -26,27 +26,32 @@ docker run -p 8000:80 my-joker-app
 ```
 Open http://localhost:8000 in your web browser.
 
+### Build and run another container
+In a separate window, make a simple change to the `/hello` endpoint in `serve.py`, build, and run another container:
+```sh
+docker build -t my-joker-app:2
+docker run -p 8001:80 my-joker-app:2
+```
+
 ### View info on the container
-In a separate window, run the following to inspect the container's properties:
+In a separate window, run the following to view resource usage of running containers:
+```sh
+docker stats
+```
+
+Run the following to inspect the properties of running containers:
 ```sh
 docker ps  # retrieve the CONTAINER-ID
 docker inspect <CONTAINER-ID>
 ```
 
-View container resource usage with the following:
-```sh
-docker stats
-```
-
 ### Cleanup
-Kill the running container:
+Stop and remove the running containers:
 ```
 docker ps  # retrieve the CONTAINER-ID
 docker kill <CONTAINER-ID>
+docker rm <CONTAINER-ID>
 ```
-
-Optionally make updates to the `serve.py` code, rebuild, and rerun the container to observe them.
-
 
 ## Kubernetes
 
@@ -129,6 +134,9 @@ Run the following to rollback to the previous version:
 ```sh
 kubectl rollout undo deployment joker-<MY_NAME>
 ```
+
+### Force worker node failure
+Instructor will use `kubectl drain` to demonstrate that upon any worker node failure, Kubernetes will automatically reshuffle containers/pods onto remaining available nodes.
 
 ### View container logs
 ```sh
