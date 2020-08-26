@@ -1,5 +1,3 @@
-#!/usr/bin/python -u
-
 import os
 import json
 import socket
@@ -21,7 +19,7 @@ class health:
 class hello:
   def GET(self):
     return json.dumps({
-      'msg': 'hello jello from ' + HOST, 
+      'msg': 'hello from ' + HOST, 
       'date': str(datetime.datetime.now())
     })
 
@@ -55,10 +53,10 @@ if __name__ == '__main__':
 
   ### map uris to classes
   urls = (
-    '/health', 'health',
-    '/hello', 'hello',
-    '/', 'joke',
+    '/', 'hello',
+    '/joke', 'joke',
     '/goodbye', 'goodbye',
+    '/health', 'health',
   )
   app = web.application(urls, globals())
 

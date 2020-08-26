@@ -33,6 +33,11 @@ docker ps  # retrieve the CONTAINER-ID
 docker inspect <CONTAINER-ID>
 ```
 
+View container resource usage with the following:
+```sh
+docker stats
+```
+
 ### Cleanup
 Kill the running container:
 ```
@@ -87,7 +92,11 @@ Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 ### Perform a rolling update
 In a separate window, run the following command to continuously request the `/hello` endpoint of your joker app:
 ```sh
+# for Mac/Linux
 while true; do curl <EXTERNAL-IP>/hello; echo ''; sleep 1; done
+
+# for Windows
+FOR /L %N IN () DO curl "<EXTERNAL-IP>/hello"; sleep 1
 ```
 Update the `serve.py` file with a different return message in the `hello` request handler.
 
