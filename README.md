@@ -1,5 +1,5 @@
 # Introduction to Kubernetes/Docker
-This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes/Docker_ training.
+This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes & Docker_ training.
 
 ## Prerequisites
 - `git` (to clone this repo)
@@ -27,7 +27,7 @@ docker run -p 8000:80 my-joker-app
 Open http://localhost:8000 in your web browser.
 
 ### Build and run another container
-In a separate window, make a simple change to the `/hello` endpoint in `serve.py`, build, and run another container:
+In a separate window, make a simple change to the `hello` request handler in `serve.py`, build, and run another container:
 ```sh
 docker build -t my-joker-app:2 .
 docker run -p 8001:80 my-joker-app:2
@@ -95,7 +95,7 @@ kubectl get services
 Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 
 ### Perform a rolling update
-In a separate window, run the following command to continuously request the `/hello` endpoint of your joker app:
+In a separate window, run the following command to continuously request the `hello` request handler of your joker app:
 ```sh
 # for Mac/Linux
 while true; do curl <EXTERNAL-IP>; echo ''; sleep 1; done
@@ -128,7 +128,7 @@ kubectl get pods
 ```
 Notice that you will see that the new pods do not come up as healthy, as expected, and your old pods are still running. This is due to the failing readiness probes as Kubernetes will only terminate older pods if new ones are deployed that are passing readiness probes.
 
-Also going back to the window requesting `/hello` will not show your new message, only your old one. This is also due to the failing readiness probe as the `Service` is smart enough to not route to any pods that are failing this probe.
+Also we'll observe that the window requesting joker service will not show your new message, only your old one. This is also due to the failing readiness probe as the `Service` is smart enough to not route to any pods that are failing this probe.
 
 Run the following to rollback to the previous version:
 ```sh
