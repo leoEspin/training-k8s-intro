@@ -14,7 +14,7 @@ def load_jokes():
 # Endpoints
 class health:
   def GET(self):
-    return blahblah
+    return ''
 
 class hello:
   def GET(self):
