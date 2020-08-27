@@ -29,7 +29,7 @@ Open http://localhost:8000 in your web browser.
 ### Build and run another container
 In a separate window, make a simple change to the `/hello` endpoint in `serve.py`, build, and run another container:
 ```sh
-docker build -t my-joker-app:2
+docker build -t my-joker-app:2 .
 docker run -p 8001:80 my-joker-app:2
 ```
 
@@ -98,10 +98,10 @@ Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 In a separate window, run the following command to continuously request the `/hello` endpoint of your joker app:
 ```sh
 # for Mac/Linux
-while true; do curl <EXTERNAL-IP>/hello; echo ''; sleep 1; done
+while true; do curl <EXTERNAL-IP>; echo ''; sleep 1; done
 
 # for Windows
-FOR /L %N IN () DO curl "<EXTERNAL-IP>/hello"; sleep 1
+FOR /L %N IN () DO curl "<EXTERNAL-IP>"; sleep 1
 ```
 Update the `serve.py` file with a different return message in the `hello` request handler.
 
