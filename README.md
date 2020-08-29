@@ -34,16 +34,22 @@ docker run -p 8001:80 my-joker-app:2
 ```
 
 ### View info on running containers
-In a separate window, run the following to view resource usage of running containers:
+In a separate window, run the following to inspect the properties of running containers:
+```sh
+docker ps
+docker inspect <CONTAINER-ID>
+```
+
+Run the following to view resource usage of running containers:
 ```sh
 docker stats
 ```
 
-Run the following to inspect the properties of running containers:
+Run the following to shell into a container:
 ```sh
-docker ps  # retrieve the CONTAINER-ID
-docker inspect <CONTAINER-ID>
+docker exec -it <CONTAINER-ID> bash
 ```
+
 
 ### Cleanup
 Stop and remove the running containers:
@@ -144,8 +150,8 @@ kubectl get pods  # retrieve POD_NAME
 kubectl logs <POD_NAME> -f
 ```
 
-### SSH into containers
-SSH into one of your joker app containers:
+### Shell into containers
+Shell into one of your joker app containers:
 ```sh
 kubectl get pods
 kubectl exec -it <POD_NAME> -- bash
@@ -156,7 +162,7 @@ curl joker-<MY_NAME>
 ```
 This is made possible with an internal DNS server that every cluster includes, and which every container within the cluster automatically uses.
 
-You can also SSH into a new container in the same cluster, using any image:
+You can also shell into a new container in the same cluster, using any image:
 ```sh
 kubectl run -it --image centos <MY_NAME> -- bash
 ```
