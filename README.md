@@ -45,11 +45,17 @@ Run the following to view resource usage of running containers:
 docker stats
 ```
 
+### View container logs
+Run the following to view container logs:
+```sh
+docker logs -f <CONTAINER-ID>
+```
+
+### Shell into containers
 Run the following to shell into a container:
 ```sh
 docker exec -it <CONTAINER-ID> bash
 ```
-
 
 ### Cleanup
 Stop and remove the running containers:
