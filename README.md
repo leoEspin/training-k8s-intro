@@ -46,7 +46,7 @@ docker stats
 ```
 
 ### View container logs
-Run the following to view container logs:
+Run the following to view container logs (stdout/stderr):
 ```sh
 docker logs -f <CONTAINER-ID>
 ```
