@@ -1,5 +1,5 @@
 # Introduction to Kubernetes/Docker
-This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes/Docker_ training.
+This repo contains content for [Aramse](http://aramse.io)'s _Introduction to Kubernetes & Docker_ training.
 
 ## Prerequisites
 - `git` (to clone this repo)
@@ -27,22 +27,34 @@ docker run -p 8000:80 my-joker-app
 Open http://localhost:8000 in your web browser.
 
 ### Build and run another container
-In a separate window, make a simple change to the `/hello` endpoint in `serve.py`, build, and run another container:
+In a separate window, make a simple change to the `hello` request handler in `serve.py`, build, and run another container:
 ```sh
-docker build -t my-joker-app:2
+docker build -t my-joker-app:2 .
 docker run -p 8001:80 my-joker-app:2
 ```
 
 ### View info on running containers
-In a separate window, run the following to view resource usage of running containers:
+In a separate window, run the following to inspect the properties of running containers:
+```sh
+docker ps
+docker inspect <CONTAINER-ID>
+```
+
+Run the following to view resource usage of running containers:
 ```sh
 docker stats
 ```
 
-Run the following to inspect the properties of running containers:
+### View container logs
+Run the following to view container logs (stdout/stderr):
 ```sh
-docker ps  # retrieve the CONTAINER-ID
-docker inspect <CONTAINER-ID>
+docker logs -f <CONTAINER-ID>
+```
+
+### Shell into containers
+Run the following to shell into a container:
+```sh
+docker exec -it <CONTAINER-ID> bash
 ```
 
 ### Cleanup
@@ -95,13 +107,13 @@ kubectl get services
 Open a web browser to the `EXTERNAL-IP` created for your `Service`.
 
 ### Perform a rolling update
-In a separate window, run the following command to continuously request the `/hello` endpoint of your joker app:
+In a separate window, run the following command to continuously request the `hello` request handler of your joker app:
 ```sh
 # for Mac/Linux
-while true; do curl <EXTERNAL-IP>/hello; echo ''; sleep 1; done
+while true; do curl <EXTERNAL-IP>; echo ''; sleep 1; done
 
 # for Windows
-FOR /L %N IN () DO curl "<EXTERNAL-IP>/hello"; sleep 1
+FOR /L %N IN () DO curl "<EXTERNAL-IP>"; sleep 1
 ```
 Update the `serve.py` file with a different return message in the `hello` request handler.
 
@@ -128,7 +140,7 @@ kubectl get pods
 ```
 Notice that you will see that the new pods do not come up as healthy, as expected, and your old pods are still running. This is due to the failing readiness probes as Kubernetes will only terminate older pods if new ones are deployed that are passing readiness probes.
 
-Also going back to the window requesting `/hello` will not show your new message, only your old one. This is also due to the failing readiness probe as the `Service` is smart enough to not route to any pods that are failing this probe.
+Also we'll observe that the window requesting joker service will not show your new message, only your old one. This is also due to the failing readiness probe as the `Service` is smart enough to not route to any pods that are failing this probe.
 
 Run the following to rollback to the previous version:
 ```sh
@@ -144,8 +156,8 @@ kubectl get pods  # retrieve POD_NAME
 kubectl logs <POD_NAME> -f
 ```
 
-### SSH into containers
-SSH into one of your joker app containers:
+### Shell into containers
+Shell into one of your joker app containers:
 ```sh
 kubectl get pods
 kubectl exec -it <POD_NAME> -- bash
@@ -156,7 +168,7 @@ curl joker-<MY_NAME>
 ```
 This is made possible with an internal DNS server that every cluster includes, and which every container within the cluster automatically uses.
 
-You can also SSH into a new container in the same cluster, using any image:
+You can also shell into a new container in the same cluster, using any image:
 ```sh
 kubectl run -it --image centos <MY_NAME> -- bash
 ```
